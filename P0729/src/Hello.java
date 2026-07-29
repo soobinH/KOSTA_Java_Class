@@ -19,10 +19,13 @@ public class Hello {
 		System.out.println("Married: " + married);
 		
 		char blood = 'A';
-		System.out.println("blood type: " + blood);
+		System.out.println("Blood type: " + blood);
 		
 		String name = "황수빈";
 		System.out.println("Name: " + name);
+		
+		final float PI = 3.14F; // 상수 선언
+		System.out.println("PI: " + PI );
 	} 
 
 }
