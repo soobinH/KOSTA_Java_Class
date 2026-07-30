@@ -1,6 +1,8 @@
 
 public class Hello {
 
+	static int si;
+	
 	public static void main(String[] args) {
 //		System.out.println("Hello Java!!"); // 출력
 		
@@ -26,6 +28,10 @@ public class Hello {
 		
 		final float PI = 3.14F; // 상수 선언
 		System.out.println("PI: " + PI );
+		
+		String grade;
+//		System.out.println(grade); // 초기화 하지 않은 변수는 사용할 수 없다.
+		System.out.println(si);
 	} 
 
 }
