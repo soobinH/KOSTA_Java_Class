@@ -16,7 +16,7 @@ public class EX8 {
 		float f = 3/2f; // float 값으로 나눠야 함
 		
 //		long l = 3000*3000*3000; 
-		long l = 3000L * 3000L * 3000L; // 
+		long l = 3000L * 3000L * 3000L; // Long이므로 L 키워드를 붙여야 연산이 정상적으로 됨
 		
 		float f2 = 0.1f;
 //		double d = 0.1;
