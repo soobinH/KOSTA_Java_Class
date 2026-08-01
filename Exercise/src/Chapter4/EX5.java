@@ -3,7 +3,6 @@ package Chapter4;
 public class EX5 {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 //		다음의 for문을 while문으로 변경하시오.
 
 //		for(int i=0; i<=10; i++) {
