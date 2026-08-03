@@ -8,7 +8,7 @@ public class EX4 {
 		
 		int sum = 0;
 		int i = 1;
-		while(sum <= 100) {
+		while(sum < 100) {
 			if(i % 2 == 0) {
 				sum -= i;
 				i++;
