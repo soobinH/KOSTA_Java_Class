@@ -38,9 +38,11 @@ public class EX5 {
             ballArr[j] = tmp;
         }
 
-        for(int i = 0; i<3; i++) {
-            ball3[i] = ballArr[i];
-        }
+//        for(int i = 0; i<ball3.length; i++) {
+//            ball3[i] = ballArr[i];
+//        }
+        
+        System.arraycopy(ballArr, 0, ball3, 0, 3);
 
         for(int i=0;i<ball3.length;i++) {
             System.out.print(ball3[i]);

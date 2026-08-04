@@ -19,6 +19,7 @@ package Chapter5;
 // System.out.println("average="+average);
 // } // end of main
 // } // end of class 
+
 public class EX4 {
     public static void main(String[] args) {
         int[][] arr = {
