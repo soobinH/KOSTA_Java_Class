@@ -2,6 +2,26 @@ class Person { // 클래스(약간 거푸집? 느낌)
 	int age;
 	String name;
 	
+	// 기본 생성자 : 매개변수가 없는 생성자
+	// 클래스에 생성자가 하나도 없으면 기본 생성자는 자동 생성된다.
+	// 하지만 생성자가 하나라도 있으면 자동 생성되지 않기 때문에 수동으로 반드시 넣어 줘야 한다.
+	Person() {}
+	
+	Person(int Age) {
+		this(Age, "이름 없음");
+	}
+	
+	Person(String aName){
+		this(0, aName);
+	}
+	
+	Person(int age, String name) {
+		this.age = age;
+		this.name = name;
+	}
+	
+	
+	
 	void info() {
 		System.out.println(String.format("이름: %s, 나이: %d", name,age));
 	}

@@ -3,7 +3,7 @@ import java.util.Scanner;
 public class Bank {
 	
 	Scanner sc = new Scanner(System.in);
-	Account[] accs = new Account[100];
+	static Account[] accs = new Account[100];
 	int cnt;
 	
 	int menu() {
@@ -20,9 +20,25 @@ public class Bank {
 		return Integer.parseInt(sc.nextLine());
 	}
 	
-	void error() {
+	boolean checkAccount(Account acc) {
+		if(acc == null) {
+			System.out.println("계좌 번호가 틀립니다.");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	void printCheckPwd(boolean checkPwd) {
+		if(!checkPwd) {
+			System.out.println("비밀번호가 틀립니다.");
+			return;
+		}
+		
 		return;
 	}
+	
+	
 	
 	void makeAccount() {
 		System.out.println();
@@ -38,13 +54,7 @@ public class Bank {
 		System.out.print("비밀번호: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		Account acc = new Account();
-		acc.id = id;
-		acc.name = name;
-		acc.balance = money;
-		acc.setPwd(pwd);
-		
-		accs[cnt++] = acc;
+		accs[cnt++] = new Account(id, name, money, pwd);
 		System.out.println("===================");
 		System.out.println();
 	}
@@ -70,19 +80,13 @@ public class Bank {
 		String id = sc.nextLine();
 		
 		Account acc = searchAccById(id);
-		if(acc == null) {
-			System.out.println("계좌번호가 틀립니다.");
-			return;
-		}
+		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		if(!acc.checkPwd(pwd))
-		{
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		
+		printCheckPwd(acc.checkPwd(pwd));
 		
 		System.out.print("입금액: ");
 		int money =Integer.parseInt(sc.nextLine());
@@ -105,21 +109,15 @@ public class Bank {
 		System.out.println("[출금]");
 		System.out.print("계좌번호: ");
 		String id = sc.nextLine();
-		Account acc = searchAccById(id);
 		
-		if(acc == null) {
-			System.out.println("계좌번호가 틀립니다.");
-			return;
-		}
+		Account acc = searchAccById(id);
+		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		if(!acc.checkPwd(pwd))
-		{
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		printCheckPwd(acc.checkPwd(pwd));
+
 		System.out.print("출금액: ");
 		int money =Integer.parseInt(sc.nextLine());
 		
@@ -144,30 +142,20 @@ public class Bank {
 		System.out.print("본인 계좌 번호: ");
 		String id = sc.nextLine();
 		Account acc = searchAccById(id);
-		
-		if(acc == null) {
-			System.out.println("계좌번호가 틀립니다.");
-			return;
-		}
+		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		if(!acc.checkPwd(pwd))
-		{
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		printCheckPwd(acc.checkPwd(pwd));
+
 		
 		// 상대 계좌
 		System.out.print("송금받을 계좌 번호: ");
 		id = sc.nextLine();
-		Account toAcc = searchAccById(id);
 		
-		if(toAcc == null) {
-			System.out.println("계좌번호가 틀립니다.");
-			return;
-		}
+		Account toAcc = searchAccById(id);
+		checkAccount(toAcc);
 		
 		// 송금할 금액
 		System.out.print("송금액: ");
@@ -193,21 +181,15 @@ public class Bank {
 		System.out.print("계좌 번호: ");
 		String id = sc.nextLine();
 		Account acc = null;
-		acc = searchAccById(id);
 		
-		if(acc == null) {
-			System.out.println("계좌 번호가 틀립니다.");
-			return;
-		}
+		acc = searchAccById(id);
+		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		if(!acc.checkPwd(pwd))
-		{
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		printCheckPwd(acc.checkPwd(pwd));
+
 		
 		System.out.println("찾으신 계좌: " + acc.info());
 		System.out.println("===================");

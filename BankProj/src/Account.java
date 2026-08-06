@@ -5,6 +5,13 @@ public class Account {
 	int balance;
 	private int pwd;
 	
+	Account(String id, String name, int balance, int pwd) {
+		this.id = id;
+		this.name = name;
+		this.balance = balance;
+		this.pwd = pwd;
+	}
+	
 	String info() {
 		return String.format("계좌번호: %s, 이름: %s, 잔액: %d", id, name, balance);
 	}
@@ -16,10 +23,6 @@ public class Account {
 	void withdraw(int money) {
 		if(balance >= money)
 			balance -= money; 
-	}
-	
-	void setPwd(int set) {
-		pwd = set;
 	}
 	
 	boolean checkPwd(int check) {
