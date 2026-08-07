@@ -1,5 +1,6 @@
 class Parent {
 	int pnum;
+	Parent(){}
 	
 	Parent(int pnum) {
 		this.pnum = pnum;
@@ -12,6 +13,8 @@ class Parent {
 
 class Child extends Parent {
 	int cnum;
+	
+	Child() {};
 	
 	Child(int pnum, int cnum) {
 		super(pnum);

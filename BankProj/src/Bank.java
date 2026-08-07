@@ -29,22 +29,26 @@ public class Bank {
 		return true;
 	}
 	
-	void printCheckPwd(boolean checkPwd) {
-		if(!checkPwd) {
-			System.out.println("비밀번호가 틀립니다.");
-			return;
+	
+	int selMakeAccount() {
+		System.out.println("[계좌 개설]");
+		System.out.println("1. 일반 계좌");
+		System.out.println("2. 특수 계좌");
+		System.out.print("선택 >>");
+		int sel = Integer.parseInt(sc.nextLine());
+		switch(sel) {
+		case 1: makeAccount(); break;
+		case 2: makeSpecialAccount(); break;
 		}
 		
-		return;
+		return sel;
 	}
-	
-	
 	
 	void makeAccount() {
 		System.out.println();
 		System.out.println("===================");
 
-		System.out.println("[계좌 개설]");
+		System.out.println("[일반 계좌 개설]");
 		System.out.print("계좌 번호: ");
 		String id = sc.nextLine();
 		System.out.print("이름: ");
@@ -55,6 +59,29 @@ public class Bank {
 		int pwd = Integer.parseInt(sc.nextLine());
 		
 		accs[cnt++] = new Account(id, name, money, pwd);
+		System.out.println("===================");
+		System.out.println();
+	}
+	
+	void makeSpecialAccount() {
+		System.out.println();
+		System.out.println("===================");
+
+		System.out.println("[특수 계좌 개설]");
+		System.out.print("계좌 번호: ");
+		String id = sc.nextLine();
+		System.out.print("이름: ");
+		String name = sc.nextLine();
+		System.out.print("입금액: ");
+		int money = Integer.parseInt(sc.nextLine());
+		System.out.print("등급(VIP, Gold, Silver, Normal): ");
+		String grade = sc.nextLine();
+		System.out.print("비밀번호: ");
+		int pwd = Integer.parseInt(sc.nextLine());
+		
+		accs[cnt++] = new SpecialAccount(id, name, money, pwd, grade);
+
+		
 		System.out.println("===================");
 		System.out.println();
 	}
@@ -85,8 +112,12 @@ public class Bank {
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
+		boolean checkPwd = acc.checkPwd(pwd);
+		if(!checkPwd) {
+			System.out.println("비밀번호가 틀립니다.");
+			return;
+		}
 		
-		printCheckPwd(acc.checkPwd(pwd));
 		
 		System.out.print("입금액: ");
 		int money =Integer.parseInt(sc.nextLine());
@@ -116,8 +147,12 @@ public class Bank {
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		printCheckPwd(acc.checkPwd(pwd));
-
+		boolean checkPwd = acc.checkPwd(pwd);
+		if(!checkPwd) {
+			System.out.println("비밀번호가 틀립니다.");
+			return;
+		}
+		
 		System.out.print("출금액: ");
 		int money =Integer.parseInt(sc.nextLine());
 		
@@ -144,10 +179,14 @@ public class Bank {
 		Account acc = searchAccById(id);
 		if(!checkAccount(acc)) return;
 		
-		System.out.print("비밀번호를 입력하세요: ");
+		System.out.print("숫자 4자리 비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		printCheckPwd(acc.checkPwd(pwd));
+		boolean checkPwd = acc.checkPwd(pwd);
+		if(!checkPwd) {
+			System.out.println("비밀번호가 틀립니다.");
+			return;
+		}
 
 		
 		// 상대 계좌
@@ -188,7 +227,11 @@ public class Bank {
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		printCheckPwd(acc.checkPwd(pwd));
+		boolean checkPwd = acc.checkPwd(pwd);
+		if(!checkPwd) {
+			System.out.println("비밀번호가 틀립니다.");
+			return;
+		}
 
 		
 		System.out.println("찾으신 계좌: " + acc.info());
@@ -202,7 +245,7 @@ public class Bank {
 		System.out.println("===================");
 		System.out.println("[전체 계좌 조회]");
 		for(int i= 0; i<cnt; i++) {
-			System.out.println(cnt + "번: " + accs[i].info());
+			System.out.println(i + "번: " + accs[i].info());
 				
 		}
 		System.out.println("===================");
@@ -228,7 +271,7 @@ public class Bank {
 		Loop1 : while(true) {
 			int sel = bank.menu();
 			switch(sel) {
-			case 1: bank.makeAccount(); break;
+			case 1: bank.selMakeAccount(); break;
 			case 2: bank.deposit(); break;
 			case 3: bank.withdraw(); break;
 			case 4: bank.transfer(); break;
