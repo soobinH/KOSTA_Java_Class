@@ -30,3 +30,4 @@ out/
 .claude
 .settings/
 bin/
+/.metadata/

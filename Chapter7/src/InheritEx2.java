@@ -18,6 +18,7 @@ class Child extends Parent {
 		this.cnum = cnum;
 	}
 	
+	@Override
 	void method1() { // 부모의 메소드를 재정의
 		System.out.println("child method1");
 	}
@@ -26,7 +27,7 @@ class Child extends Parent {
 		System.out.println("method1(int n)");
 	}
 	
-	void method2() {
+	void method2() { // 없는 기능을 추가
 		System.out.println("method2");
 	}
 }

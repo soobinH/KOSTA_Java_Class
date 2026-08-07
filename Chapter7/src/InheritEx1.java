@@ -18,6 +18,7 @@ class Student extends Person{
 	String major;
 	
 	
+	
 	// 부모 함수 갖다 붙이는 방법
 	@Override
 	String info() {
