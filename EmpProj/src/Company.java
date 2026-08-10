@@ -1,3 +1,8 @@
+import emp.Employee;
+import emp.IBusinessTrip;
+import emp.PartTime;
+import emp.Permanent;
+import emp.Sales;
 
 public class Company {
 	Employee[] emps = new Employee[100];
@@ -22,6 +27,10 @@ public class Company {
 		
 		return totalPay;
 	}
+	
+	public void regBusinessTrip(IBusinessTrip emp,int day) {
+		emp.goBusinessTrip(day);
+	}
 
 	public static void main(String[] args) {
 		Company com = new Company();
@@ -31,6 +40,10 @@ public class Company {
 		com.addEmployee(emp1);
 		com.addEmployee(emp2);
 		com.addEmployee(emp3);
+		
+//		com.regBusinessTrip(emp1, 2);
+		com.regBusinessTrip(emp2, 1);
+		com.regBusinessTrip(emp3, 3);
 		
 		
 		com.allEmployeeInfo();

@@ -1,3 +1,9 @@
+import com.Circle;
+import com.Diamond;
+import com.Elipse;
+import com.Point;
+import com.Rectangle;
+import com.Triangle;
 
 public class ShapeMain {
 	public static void main(String[] args) {

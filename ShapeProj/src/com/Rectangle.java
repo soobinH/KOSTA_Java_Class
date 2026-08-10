@@ -1,3 +1,4 @@
+package com;
 
 public class Rectangle extends Shape{
 	Point startPos;

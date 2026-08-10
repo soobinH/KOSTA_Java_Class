@@ -1,5 +1,12 @@
 import java.util.Scanner;
 
+import acc.Account;
+import acc.SpecialAccount;
+
+
+import acc.Account;
+import acc.SpecialAccount;
+
 public class Bank {
 	
 	Scanner sc = new Scanner(System.in);
@@ -89,7 +96,7 @@ public class Bank {
 	Account searchAccById(String id) {
 		Account acc = null;
 		for(int i = 0; i<cnt; i++) {
-			if(accs[i].id.equals(id)) {
+			if(accs[i].getId().equals(id)) {
 				acc =  accs[i];
 			}
 		}
@@ -125,7 +132,7 @@ public class Bank {
 
 		
 		System.out.println();
-		System.out.println(String.format("%s 님에게 %d원을 송금합니다.", acc.name, money));
+		System.out.println(String.format("%s 님에게 %d원을 송금합니다.", acc.getName(), money));
 		acc.deposit(money);
 		System.out.println("===================");
 		System.out.println();

@@ -1,3 +1,4 @@
+package emp;
 
 public class Permanent extends Employee{
 	int salary;
@@ -15,6 +16,11 @@ public class Permanent extends Employee{
 	public int getPay() {
 		return salary;
 	}
+
+
+	
+	
+	
 	
 
 }

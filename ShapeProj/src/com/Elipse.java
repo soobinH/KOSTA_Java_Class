@@ -1,3 +1,4 @@
+package com;
 
 public class Elipse extends Shape {
 	Point cen1;

@@ -1,6 +1,6 @@
 class Person {
-	int age;
-	String name;
+	private int age;
+	private String name;
 	
 	Person() {}
 	Person(int age, String name) {
@@ -8,17 +8,45 @@ class Person {
 		this.name= name;
 	}
 	
+	public int getAge() {
+		return age;
+	}
+	public void setAge(int age) {
+		this.age = age;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
 	String info() {
 		return String.format("이름: %s, 나이: %d", name, age);
 	}
 }
 
 class Student extends Person{
-	int grade;
-	String major;
+	private int grade;
+	private String major;
 	
 	
 	
+	public int getGrade() {
+		return grade;
+	}
+
+	public void setGrade(int grade) {
+		this.grade = grade;
+	}
+
+	public String getMajor() {
+		return major;
+	}
+
+	public void setMajor(String major) {
+		this.major = major;
+	}
+
 	// 부모 함수 갖다 붙이는 방법
 	@Override
 	String info() {
@@ -33,8 +61,8 @@ class Student extends Person{
 	
 	Student(int age, String name, int grade, String major) {
 		super(age, name);
-		this.age = age;
-		this.name = name;
+		this.setAge(age);
+		this.setName(name);
 		this.grade = grade;
 		this.major = major;
 	}
@@ -47,10 +75,10 @@ public class InheritEx1 {
 		System.out.println(p1.info());
 		
 		Student s1 = new Student();
-		s1.age = 29;
-		s1.name ="홍길동";
-		s1.grade = 4;
-		s1.major = "철학";
+		s1.setAge(25);
+		s1.setName("홍길동");
+		s1.setGrade(4);;
+		s1.setMajor("철학");
 		System.out.println(s1.info());
 		
 		Student s2 = new Student(20, "고길동", 1, "심리학");

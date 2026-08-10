@@ -1,4 +1,8 @@
 
+
+import com.Circle;
+import com.Shape;
+
 public class ShapeSet {
 	Shape[] shapes = new Shape[100];
 	int cnt;
