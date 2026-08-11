@@ -13,4 +13,5 @@ public class Shape {
 	public String info() {
 		return "";
 	}
+	
 }
