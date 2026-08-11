@@ -47,7 +47,7 @@ class Circle extends Shape {
 	@Override
 	double calcArea() {
 		// TODO Auto-generated method stub
-		return r*r*3.141592653589793     f;
+		return r*r*3.141592653589793;
 	}
 }
 
