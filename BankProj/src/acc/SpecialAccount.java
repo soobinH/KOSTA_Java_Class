@@ -1,5 +1,7 @@
 package acc;
 
+import exc.BankException;
+
 public class SpecialAccount extends Account{
 
 	public String grade;
@@ -10,13 +12,16 @@ public class SpecialAccount extends Account{
 		this.grade = grade;
 	}
 	
-	public void deposit(int money) {
+	@Override
+	public void deposit(int money) throws BankException{ 
+		double rate = 0;
 		switch(grade.toUpperCase()) {
-		case "VIP": balance += money + (money*0.04); break;
-		case "GOLD" : balance += money + (money*0.03); break;
-		case "SILVER" : balance += money + (money*0.02); break;
-		case "NORMAL" : balance += money + (money * 0.01); break;
+		case "VIP": rate = 0.04; break;
+		case "GOLD" : rate = 0.03; break;
+		case "SILVER" : rate = 0.02; break;
+		case "NORMAL" : rate = 0.01; break;
 		}
+		super.deposit(money+(int)(money*rate));
 	}
 	
 	public String info() {

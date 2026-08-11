@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 import acc.Account;
 import acc.SpecialAccount;
-
-
+import exc.BankException;
+import exc.ERR_CODE;
 import acc.Account;
 import acc.SpecialAccount;
 
@@ -13,7 +13,7 @@ public class Bank {
 	static Account[] accs = new Account[100];
 	int cnt;
 	
-	int menu() {
+	int menu() throws BankException{
 		System.out.println("[곰순이 은행]");
 		System.out.println("1. 계좌 개설");
 		System.out.println("2. 입금");
@@ -24,7 +24,10 @@ public class Bank {
 		System.out.println("0. 종료");
 		System.out.print("선택 >> ");
 		
-		return Integer.parseInt(sc.nextLine());
+		int sel= Integer.parseInt(sc.nextLine());
+		if(!(sel>=0 && sel<=6)) throw new BankException("메뉴오류", ERR_CODE.MENU);
+		
+		return sel;
 	}
 	
 	boolean checkAccount(Account acc) {
@@ -37,7 +40,7 @@ public class Bank {
 	}
 	
 	
-	int selMakeAccount() {
+	int selMakeAccount() throws BankException{
 		System.out.println("[계좌 개설]");
 		System.out.println("1. 일반 계좌");
 		System.out.println("2. 특수 계좌");
@@ -46,18 +49,24 @@ public class Bank {
 		switch(sel) {
 		case 1: makeAccount(); break;
 		case 2: makeSpecialAccount(); break;
+		default: throw new BankException("메뉴오류", ERR_CODE.MENU);
 		}
+		
+		
+
 		
 		return sel;
 	}
 	
-	void makeAccount() {
+	void makeAccount() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 
 		System.out.println("[일반 계좌 개설]");
 		System.out.print("계좌 번호: ");
 		String id = sc.nextLine();
+		if(searchAccById(id)!=null)
+			throw new BankException("계좌오류", ERR_CODE.DOUBLEID);
 		System.out.print("이름: ");
 		String name = sc.nextLine();
 		System.out.print("입금액: ");
@@ -70,13 +79,15 @@ public class Bank {
 		System.out.println();
 	}
 	
-	void makeSpecialAccount() {
+	void makeSpecialAccount() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 
 		System.out.println("[특수 계좌 개설]");
 		System.out.print("계좌 번호: ");
 		String id = sc.nextLine();
+		if(searchAccById(id)!=null)
+			throw new BankException("계좌오류", ERR_CODE.DOUBLEID);
 		System.out.print("이름: ");
 		String name = sc.nextLine();
 		System.out.print("입금액: ");
@@ -103,7 +114,7 @@ public class Bank {
 		return acc;
 	}
 	
-	void deposit() {
+	void deposit() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 
@@ -114,17 +125,15 @@ public class Bank {
 		String id = sc.nextLine();
 		
 		Account acc = searchAccById(id);
+		if(acc == null) throw new BankException("계좌오류", ERR_CODE.ACCID);
 		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
 		boolean checkPwd = acc.checkPwd(pwd);
-		if(!checkPwd) {
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
-		
+		if(checkPwd == false) throw new BankException("비밀번호 오류", ERR_CODE.PASSWORD);
+
 		
 		System.out.print("입금액: ");
 		int money =Integer.parseInt(sc.nextLine());
@@ -140,7 +149,7 @@ public class Bank {
 	
 	
 	
-	void withdraw() {
+	void withdraw() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 		
@@ -149,16 +158,14 @@ public class Bank {
 		String id = sc.nextLine();
 		
 		Account acc = searchAccById(id);
+		if(acc == null) throw new BankException("계좌오류", ERR_CODE.ACCID);
 		if(!checkAccount(acc)) return;
 		
 		System.out.print("비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
 		boolean checkPwd = acc.checkPwd(pwd);
-		if(!checkPwd) {
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		if(checkPwd == false) throw new BankException("비밀번호 오류", ERR_CODE.PASSWORD);
 		
 		System.out.print("출금액: ");
 		int money =Integer.parseInt(sc.nextLine());
@@ -168,13 +175,13 @@ public class Bank {
 		System.out.println();
 		System.out.println(String.format("%d원을 출금합니다.", money));
 		acc.withdraw(money);
-		System.out.println(String.format("잔액: %d원", acc.balance));
+		System.out.println(String.format("잔액: %d원", acc.getBalance()));
 		
 		System.out.println("===================");
 		System.out.println();
 	}
 	
-	void transfer() {
+	void transfer() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 		
@@ -184,16 +191,15 @@ public class Bank {
 		System.out.print("본인 계좌 번호: ");
 		String id = sc.nextLine();
 		Account acc = searchAccById(id);
-		if(!checkAccount(acc)) return;
+		if(acc == null) throw new BankException("계좌 오류", ERR_CODE.SENDACCID);
+
 		
 		System.out.print("숫자 4자리 비밀번호를 입력하세요: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
 		boolean checkPwd = acc.checkPwd(pwd);
-		if(!checkPwd) {
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		if(checkPwd == false) throw new BankException("비밀번호 오류", ERR_CODE.PASSWORD);
+
 
 		
 		// 상대 계좌
@@ -201,7 +207,8 @@ public class Bank {
 		id = sc.nextLine();
 		
 		Account toAcc = searchAccById(id);
-		checkAccount(toAcc);
+		if(toAcc == null) throw new BankException("계좌 오류", ERR_CODE.RECVACCID);
+
 		
 		// 송금할 금액
 		System.out.print("송금액: ");
@@ -210,16 +217,16 @@ public class Bank {
 		
 		
 		System.out.println();
-		System.out.println(String.format("%s 님에게 %d원을 송금합니다.", toAcc.name, money));
+		System.out.println(String.format("%s 님에게 %d원을 송금합니다.", toAcc.getName(), money));
 		acc.withdraw(money);
 		toAcc.deposit(money);
-		System.out.println(String.format("잔액: %d원", acc.balance));
+		System.out.println(String.format("잔액: %d원", acc.getBalance()));
 		
 		System.out.println("===================");
 		System.out.println();
 	}
 	
-	void accountInfo() {
+	void accountInfo() throws BankException{
 		System.out.println();
 		System.out.println("===================");
 		System.out.println("[계좌 조회]");
@@ -235,10 +242,8 @@ public class Bank {
 		int pwd = Integer.parseInt(sc.nextLine());
 		
 		boolean checkPwd = acc.checkPwd(pwd);
-		if(!checkPwd) {
-			System.out.println("비밀번호가 틀립니다.");
-			return;
-		}
+		if(checkPwd == false) throw new BankException("비밀번호 오류", ERR_CODE.PASSWORD);
+
 
 		
 		System.out.println("찾으신 계좌: " + acc.info());
@@ -276,16 +281,19 @@ public class Bank {
 	public static void main(String[] args) {
 		Bank bank = new Bank();
 		Loop1 : while(true) {
-			int sel = bank.menu();
-			switch(sel) {
-			case 1: bank.selMakeAccount(); break;
-			case 2: bank.deposit(); break;
-			case 3: bank.withdraw(); break;
-			case 4: bank.transfer(); break;
-			case 5: bank.accountInfo(); break;
-			case 6: bank.allAccountInfo(); break;
-			case 0: bank.goodBye(); break Loop1;
-			
+			try {
+				int sel = bank.menu();
+				switch(sel) {
+				case 1: bank.selMakeAccount(); break;
+				case 2: bank.deposit(); break;
+				case 3: bank.withdraw(); break;
+				case 4: bank.transfer(); break;
+				case 5: bank.accountInfo(); break;
+				case 6: bank.allAccountInfo(); break;
+				case 0: bank.goodBye(); break Loop1;}
+			}
+			catch(Exception e) {
+				System.out.println(e.toString());
 			}
 		}
 	}
