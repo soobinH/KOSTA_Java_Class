@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Scanner;
@@ -9,9 +8,6 @@ import acc.SpecialAccount;
 import exc.BankException;
 import exc.ERR_CODE;
 
-class accountCompare {
-	
-}
 
 public class Bank{
 	
