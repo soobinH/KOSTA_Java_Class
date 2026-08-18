@@ -2,14 +2,25 @@ package Chapter9;
 
 public class EX9 {
     public static String delChar(String src, String delCh) {
-        StringBuffer str = new StringBuffer(src);
-        for(int i = 0; i<src.length(); i++) {
-            if(src.indexOf(delCh.charAt(i)) == -1)
-                return src;
-            str.deleteCharAt(src.indexOf(delCh.charAt(i)));
+        StringBuffer str = new StringBuffer();
+        
+        for (int i = 0; i < src.length(); i++) {
+            char ch = src.charAt(i);
+            boolean isDelete = false;
+            
+            for (int j = 0; j < delCh.length(); j++) {
+                if (ch == delCh.charAt(j)) {
+                    isDelete = true;
+                    break;
+                }
+            }
+            
+            if (!isDelete) {
+                str.append(ch);
+            }
         }
-
-        //src = (String)str;
+        
+        return str.toString();
     }
     public static void main(String[] args) {
         System.out.println("(1!2@3^4~5)"+" -> "
