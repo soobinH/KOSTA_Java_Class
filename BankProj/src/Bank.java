@@ -1,17 +1,35 @@
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 import acc.Account;
 import acc.SpecialAccount;
 import exc.BankException;
 import exc.ERR_CODE;
-import acc.Account;
-import acc.SpecialAccount;
 
-public class Bank {
+class accountCompare {
+	
+}
+
+public class Bank{
 	
 	Scanner sc = new Scanner(System.in);
-	static Account[] accs = new Account[100];
-	int cnt;
+//	ArrayList<Account> accs = new ArrayList<>();
+	TreeSet<Account> accs = new TreeSet<>(new Comparator<Account>() {
+		@Override
+		public int compare(Account o1, Account o2) {
+	        
+	            return o2.getBalance() - o1.getBalance(); // 성적순 descending (내림차순)
+	    }
+		
+	});
+//	static Account[] accs = new Account[100];
+//	int cnt;
+	
+	
+	
 	
 	int menu() throws BankException{
 		System.out.println("[곰순이 은행]");
@@ -74,7 +92,8 @@ public class Bank {
 		System.out.print("비밀번호: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		accs[cnt++] = new Account(id, name, money, pwd);
+		accs.add(new Account(id, name, money, pwd));
+		//accs[cnt++] = new Account(id, name, money, pwd);
 		System.out.println("===================");
 		System.out.println();
 	}
@@ -97,7 +116,8 @@ public class Bank {
 		System.out.print("비밀번호: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		accs[cnt++] = new SpecialAccount(id, name, money, pwd, grade);
+		accs.add(new SpecialAccount(id, name, money, pwd, grade));
+		//accs[cnt++] = new SpecialAccount(id, name, money, pwd, grade);
 
 		
 		System.out.println("===================");
@@ -106,11 +126,16 @@ public class Bank {
 	
 	Account searchAccById(String id) {
 		Account acc = null;
-		for(int i = 0; i<cnt; i++) {
-			if(accs[i].getId().equals(id)) {
-				acc =  accs[i];
+		
+		for(Account a: accs) 
+		{
+			if(a.getId().equals(id))
+			{
+				acc = a;
+				break;
 			}
 		}
+		
 		return acc;
 	}
 	
@@ -256,10 +281,15 @@ public class Bank {
 		System.out.println();
 		System.out.println("===================");
 		System.out.println("[전체 계좌 조회]");
-		for(int i= 0; i<cnt; i++) {
-			System.out.println(i + "번: " + accs[i].info());
-				
+		
+		
+		Iterator<Account> it = accs.iterator();
+		int i = 0;
+		while(it.hasNext()) {
+			i++;
+			System.out.println(i+ "번: " + it.next().info());
 		}
+		
 		System.out.println("===================");
 
 		System.out.println();

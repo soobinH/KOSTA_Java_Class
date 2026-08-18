@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import emp.Employee;
 import emp.IBusinessTrip;
 import emp.PartTime;
@@ -5,24 +8,25 @@ import emp.Permanent;
 import emp.Sales;
 
 public class Company {
-	Employee[] emps = new Employee[100];
-	int cnt;
+	//Employee[] emps = new Employee[100];
+	ArrayList<Employee> emps = new ArrayList<>();
+	//int cnt;
 	
 	public void addEmployee(Employee emp) {
-		emps[cnt++] = emp;
+		emps.add(emp);
 	}
 	
 	public void allEmployeeInfo() {
-		for(int i = 0; i<cnt; i++) {
-			System.out.println(emps[i].info());
+		for(Employee emp: emps) {
+			System.out.println(emp.info());
 		}
 	}
 	
 	public int getAllTotalPay() {
 		int totalPay = 0;
-		for(int i = 0; i<cnt; i++) 
-		{
-			totalPay += emps[i].getPay();
+		Iterator<Employee> it = emps.iterator();
+		while(it.hasNext()) {
+			totalPay += it.next().getPay();
 		}
 		
 		return totalPay;
