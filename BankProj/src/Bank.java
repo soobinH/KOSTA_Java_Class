@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.TreeSet;
@@ -12,15 +13,7 @@ import exc.ERR_CODE;
 public class Bank{
 	
 	Scanner sc = new Scanner(System.in);
-//	ArrayList<Account> accs = new ArrayList<>();
-	TreeSet<Account> accs = new TreeSet<>(new Comparator<Account>() {
-		@Override
-		public int compare(Account o1, Account o2) {
-	        
-	            return o2.getBalance() - o1.getBalance(); // 성적순 descending (내림차순)
-	    }
-		
-	});
+	HashMap<String,Account> accs =new HashMap<>();
 //	static Account[] accs = new Account[100];
 //	int cnt;
 	
@@ -45,7 +38,7 @@ public class Bank{
 	}
 	
 	boolean checkAccount(Account acc) {
-		if(acc == null) {
+		if(accs.containsKey(acc.getId())) {
 			System.out.println("계좌 번호가 틀립니다.");
 			return false;
 		}
@@ -88,7 +81,7 @@ public class Bank{
 		System.out.print("비밀번호: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		accs.add(new Account(id, name, money, pwd));
+		accs.put(id, new Account(id, name, money, pwd));
 		//accs[cnt++] = new Account(id, name, money, pwd);
 		System.out.println("===================");
 		System.out.println();
@@ -112,7 +105,7 @@ public class Bank{
 		System.out.print("비밀번호: ");
 		int pwd = Integer.parseInt(sc.nextLine());
 		
-		accs.add(new SpecialAccount(id, name, money, pwd, grade));
+		accs.put(id, new SpecialAccount(id, name, money, pwd, grade));
 		//accs[cnt++] = new SpecialAccount(id, name, money, pwd, grade);
 
 		
@@ -123,7 +116,7 @@ public class Bank{
 	Account searchAccById(String id) {
 		Account acc = null;
 		
-		for(Account a: accs) 
+		for(Account a: accs.values()) 
 		{
 			if(a.getId().equals(id))
 			{
@@ -278,13 +271,12 @@ public class Bank{
 		System.out.println("===================");
 		System.out.println("[전체 계좌 조회]");
 		
-		
-		Iterator<Account> it = accs.iterator();
 		int i = 0;
-		while(it.hasNext()) {
+		for(Account acc:accs.values()) {
 			i++;
-			System.out.println(i+ "번: " + it.next().info());
+			System.out.println(i+ "번: " +acc.info());
 		}
+		
 		
 		System.out.println("===================");
 
