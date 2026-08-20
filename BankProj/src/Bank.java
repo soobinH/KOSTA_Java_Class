@@ -1,8 +1,17 @@
-import java.util.Comparator;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Scanner;
-import java.util.TreeSet;
+import java.util.Set;
 
 import acc.Account;
 import acc.SpecialAccount;
@@ -295,9 +304,116 @@ public class Bank{
         System.out.println("\n  곰순이 은행을 이용해 주셔서 감사합니다.  ");
 	}
 	
+	
+	void storeAccs() {
+		FileOutputStream fos = null;
+		BufferedOutputStream bos= null;
+		DataOutputStream dos = null;
+		
+		try {
+			fos = new FileOutputStream("accs.data");
+			bos = new BufferedOutputStream(fos);
+			dos = new DataOutputStream(bos);
+			
+			//계좌 수 저장
+			dos.writeInt(accs.size());
+			for(Account acc: accs.values()) {
+				if(acc instanceof SpecialAccount) {
+					dos.writeChar('S');
+					dos.writeUTF(((SpecialAccount)acc).getGrade());
+				} else {
+					dos.writeChar('N');
+				}
+				dos.writeUTF(acc.getId());
+				dos.writeUTF(acc.getName());
+				dos.writeInt(acc.getBalance());
+				dos.writeInt(acc.getPwd());
+			}
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(dos != null) dos.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	void loadAccs() {
+		FileInputStream fis = null;
+		BufferedInputStream bis = null;
+		DataInputStream dis = null;
+		
+		try {
+			fis = new FileInputStream("accs.data");
+			bis = new BufferedInputStream(fis);
+			dis = new DataInputStream(bis);
+			char sect;
+			int cnt = dis.readInt();
+			String id, name, grade = null;
+			int balance, pwd;
+			for(int i = 0; i<cnt; i++) {
+				sect = dis.readChar();
+				if(sect == 'S') {
+					grade =dis.readUTF();
+				}
+				id = dis.readUTF();
+				name = dis.readUTF();
+				balance = dis.readInt();
+				pwd = dis.readInt();
+				
+				if(sect == 'S') {
+					accs.put(id,  new SpecialAccount(id, name, balance, pwd, grade));
+				} else {
+					accs.put(id,  new Account(id, name, balance, pwd));
+				}
+			}
+		} catch(IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if(dis != null) dis.close();
+			} catch(IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	void storeAccs_txt() {
+		try(BufferedWriter bw = new BufferedWriter(new FileWriter("info.txt"))) {
+			
+			for(String key: accs.keySet()) {
+				bw.write(accs.get(key).info());
+				bw.newLine();
+			}
+			
+		} catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	void loadAccs_txt() {
+		try(BufferedReader br = new BufferedReader(new FileReader("info.txt"))) {
+			String line = null;
+			while((line = br.readLine()) != null) {
+				String[] items = line.split(",");
+				String id = items[0];
+				String name = items[1];
+				int balance = Integer.parseInt(items[2]);
+				
+				System.out.println();
+			}
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public static void main(String[] args) {
 		Bank bank = new Bank();
+		bank.loadAccs();
+		
 		Loop1 : while(true) {
 			try {
 				int sel = bank.menu();
@@ -314,6 +430,9 @@ public class Bank{
 				System.out.println(e.toString());
 			}
 		}
+		
+		bank.storeAccs();
+		bank.storeAccs_txt();
 	}
 }
 

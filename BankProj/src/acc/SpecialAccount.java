@@ -12,6 +12,10 @@ public class SpecialAccount extends Account{
 		this.grade = grade;
 	}
 	
+	public String getGrade() {
+		return grade;
+	}
+	
 	@Override
 	public void deposit(int money) throws BankException{ 
 		double rate = 0;
