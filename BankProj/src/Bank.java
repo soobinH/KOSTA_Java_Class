@@ -1,17 +1,17 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
-import java.util.Set;
 
 import acc.Account;
 import acc.SpecialAccount;
@@ -394,25 +394,38 @@ public class Bank{
 		}
 	}
 	
-	void loadAccs_txt() {
-		try(BufferedReader br = new BufferedReader(new FileReader("info.txt"))) {
-			String line = null;
-			while((line = br.readLine()) != null) {
-				String[] items = line.split(",");
-				String id = items[0];
-				String name = items[1];
-				int balance = Integer.parseInt(items[2]);
-				
-				System.out.println();
-			}
-		}catch(IOException e) {
+	
+	void storeAccs_ser() {
+		
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("account.ser"))) {
+			oos.writeObject(accs);
+			
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	void loadAccs_ser() {
+		try(ObjectInputStream ooi = new ObjectInputStream(new FileInputStream("account.ser"))) {
+			// Map 객체를 통째로 읽어와서 기존 accs 변수에 할당합니다.
+	        accs = (HashMap<String, Account>) ooi.readObject();
+	        
+	        // 읽어온 데이터 출력 예시
+	        for (String key : accs.keySet()) {
+	            System.out.println("계좌번호: " + key + ", 정보: " + accs.get(key).info());
+	        }
+		}catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 	}
 
 	public static void main(String[] args) {
 		Bank bank = new Bank();
 		bank.loadAccs();
+		bank.loadAccs_ser();
 		
 		Loop1 : while(true) {
 			try {
@@ -433,6 +446,7 @@ public class Bank{
 		
 		bank.storeAccs();
 		bank.storeAccs_txt();
+		bank.storeAccs_ser();
 	}
 }
 

@@ -1,9 +1,10 @@
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-class Student {
+class Student implements Serializable{
 	int num;
 	String name;
 	String department;
