@@ -204,9 +204,9 @@ public class Bank{
 		System.out.println();
 		System.out.println(String.format("%d원을 출금합니다.", money));
 		acc.withdraw(money);
-		System.out.println(String.format("잔액: %d원", acc.getBalance()));
-		acc.withdraw(money);
 		dao.updateBalance(acc);
+		System.out.println(String.format("잔액: %d원", acc.getBalance()));
+		
 		System.out.println("===================");
 		System.out.println();
 	}
@@ -220,7 +220,7 @@ public class Bank{
 		// 본인 계좌
 		System.out.print("본인 계좌 번호: ");
 		String id = sc.nextLine();
-		Account acc = searchAccById(id);
+		Account acc = dao.selectAccount(id);
 		if(acc == null) throw new BankException("계좌 오류", ERR_CODE.SENDACCID);
 
 		
@@ -236,7 +236,7 @@ public class Bank{
 		System.out.print("송금받을 계좌 번호: ");
 		id = sc.nextLine();
 		
-		Account toAcc = searchAccById(id);
+		Account toAcc = dao.selectAccount(id);
 		if(toAcc == null) throw new BankException("계좌 오류", ERR_CODE.RECVACCID);
 
 		
