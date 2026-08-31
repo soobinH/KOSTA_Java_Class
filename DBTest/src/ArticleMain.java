@@ -20,7 +20,7 @@ public class ArticleMain {
 //		// 2. delete
 //		articleDao.deleteArticle(1);
 //		
-////		// 3. select
+//		// 3. select
 //		Article article = articleDao.selectArticle(2);
 //		System.out.println(article);
 ////		

@@ -142,6 +142,8 @@ public class ArticleDao extends DBConnection{
 	
 	public List<Article> selectByWriterName(String name) {
 		String sql = "select a.num, a.title, a.content, a.writer, u.name writerName from article a left join user u on(u.id = a.writer) where u.name = ?";
+				
+				//
 		Connection conn = getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;

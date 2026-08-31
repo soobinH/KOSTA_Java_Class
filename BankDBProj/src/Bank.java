@@ -45,7 +45,7 @@ public class Bank{
 	}
 	
 	boolean checkAccount(Account acc) {
-		if(accs.containsKey(acc.getId())) {
+		if(dao.selectAccount(acc.getId())!= null) {
 			System.out.println("계좌 번호가 틀립니다.");
 			return false;
 		}
